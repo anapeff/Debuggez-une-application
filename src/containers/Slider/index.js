@@ -7,12 +7,16 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
+
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
-    new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
+    new Date(evtA.date) > new Date(evtB.date) ? -1 : 1 // Nouvelle fonction de comparaison 
+  // new Date(evtA.date) < new Date(evtB.date) ? 1 : 1 Ancienne fonction de comparaison
+ 
   );
   const nextCard = () => {
     setTimeout(
-      () => setIndex(index < byDateDesc.length ? index + 1 : 0),
+ // () => setIndex(index < byDateDesc.length ? index + 1 : 0), Ancienne fonction (index = 0/1/2/3 car byDateDesc.length = 3)
+    () => setIndex(index < byDateDesc.length - 1 ? index + 1 : 0), // Nouvelle fonction (index = 0/1/2 car byDateDesc.length - 1 = 2)
       5000
     );
   };
@@ -22,12 +26,11 @@ const Slider = () => {
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <>
+        // Remplacement de <></> par une div en ajoute la Key >
+        <div key={event.id}>
           <div
-            key={event.title}
-            className={`SlideCard SlideCard--${
-              index === idx ? "display" : "hide"
-            }`}
+            className={`SlideCard SlideCard--${index === idx ? "display" : "hide"
+              }`}
           >
             <img src={event.cover} alt="forum" />
             <div className="SlideCard__descriptionContainer">
@@ -40,17 +43,21 @@ const Slider = () => {
           </div>
           <div className="SlideCard__paginationContainer">
             <div className="SlideCard__pagination">
-              {byDateDesc.map((_, radioIdx) => (
+              {byDateDesc?.map((_, radioIdx) => (
                 <input
-                  key={`${event.id}`}
+               
+                  key={`${_.id}`}
                   type="radio"
                   name="radio-button"
-                  checked={idx === radioIdx}
+                  // Modification de idx en index
+                  checked={index=== radioIdx}
+                  onChange={() => null}
                 />
               ))}
+
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );

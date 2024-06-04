@@ -13,12 +13,12 @@ const Select = ({
   label,
   type = "normal",
 }) => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(null); // On initialise la valeur selectionnée à null (ajout de null)
   const [collapsed, setCollapsed] = useState(true);
   const changeValue = (newValue) => {
-    onChange();
+    onChange(newValue); // Ajout d'une nouvelle valeur (newValue) a onChange 
     setValue(newValue);
-    setCollapsed(newValue);
+    setCollapsed(true); // Fermer le menu après sélection 
   };
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
@@ -55,8 +55,8 @@ const Select = ({
           data-testid="collapse-button-testid"
           className={collapsed ? "open" : "close"}
           onClick={(e) => {
-            e.preventDefault();
-            setCollapsed(!collapsed);
+            e.preventDefault(); // Empêche le comportement par défaut du bouton 
+            setCollapsed(!collapsed); // inverse l'état de collapse 
           }}
         >
           <Arrow />

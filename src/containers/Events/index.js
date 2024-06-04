@@ -7,17 +7,19 @@ import ModalEvent from "../ModalEvent";
 
 import "./style.css";
 
-const PER_PAGE = 9;
+const PER_PAGE = 9; // constante définissant le nombre d'évenements par page 
 
 const EventList = () => {
   const { data, error } = useData();
-  const [type, setType] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [type, setType] = useState(); // Stock le type d'évenementsélectionné (filtre)
+  const [currentPage, setCurrentPage] = useState(1); // Etat pour la page actuelle 
+  // Filtrage en fonction du type du type séectionné et de la page actuelle
   const filteredEvents = (
-    (!type
-      ? data?.events
-      : data?.events) || []
-  ).filter((event, index) => {
+    (!type // Si aucun type sélectionné
+      ? data?.events // Affiche tous les évènements
+     //  : data?.events) || [] {
+      :data?.events.filter(event=>event.type === type)) || [] // Sinon, filtre les événements par la type selctionné
+    ).filter((event, index) => {
     if (
       (currentPage - 1) * PER_PAGE <= index &&
       PER_PAGE * currentPage > index
@@ -26,10 +28,12 @@ const EventList = () => {
     }
     return false;
   });
+  // Focntion pour changer le type d'évènement (filtre)
   const changeType = (evtType) => {
     setCurrentPage(1);
     setType(evtType);
   };
+  // Calcul le nombre totla de pages 
   const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
   const typeList = new Set(data?.events.map((event) => event.type));
   return (

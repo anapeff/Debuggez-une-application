@@ -13,7 +13,23 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const {last} = useData()
+   // Déclaration de la variable 'data' et 'error' en utilisant le hook 'useData'
+   const { data, error } = useData(); // Anciens : const { last } = useData();
+
+  
+  // console.log("Value Data")
+  // console.log(data)
+
+  // Vérifie si 'data' existe, ainsi que 'data.events' et s'il y a au moins un élément dans 'data.events'
+  // Si c'est le cas, la variable 'last' est définie comme étant le dernier élément dans 'data.events'
+  // Sinon, la variable 'last' est définie comme null
+  const last =
+    data && data.events && data.events.length > 0
+      ? data.events[data.events.length - 1]
+      : null;
+      
+  // console.log("Value Last")
+  // console.log(last)
   return <>
     <header>
       <Menu />
@@ -116,14 +132,31 @@ const Page = () => {
     <footer className="row">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
-        <EventCard
-          imageSrc={last?.cover}
-          title={last?.title}
-          date={new Date(last?.date)}
-          small
-          label="boom"
-        />
-      </div>
+   {/* Utilisez le composant EventCard pour afficher les détails de la prestation */}
+   {last && (
+            // Ouvre une modal qui affiche les détails de la prestation lorsqu'il est cliqué
+            <Modal Content={<Modal event={last} />}>
+              {/* Le composant Modal fournit une fonction 'setIsOpened' pour ouvrir et fermer le modal */}
+              {({ setIsOpened }) => (
+                <EventCard
+                  // Lorsque la carte est cliquée, on ouvre la modal
+                  onClick={() => setIsOpened(true)}
+                  // L'image de la prestation est affichée en utilisant la propriété 'imageSrc' de la carte
+                  imageSrc={last?.cover}
+                  // Le titre de la prestation est affiché en utilisant la propriété 'title' de la carte
+                  title={last?.title}
+                  // La date de la prestation est affichée en utilisant la propriété 'date' de la carte
+                  date={new Date(last?.date)}
+                  // Le label de la prestation est affiché en utilisant la propriété 'type' de la carte
+                  label={last?.type}
+                />
+              )}
+            </Modal>
+          )}
+          {/* Affiche un message d'erreur si 'error' existe */}
+          {error && <div>Une erreur est survenue</div>}
+
+        </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
         <address>45 avenue de la République, 75000 Paris</address>

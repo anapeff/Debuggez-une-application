@@ -15,7 +15,7 @@ const Form = ({ onSuccess, onError }) => {
           // We try to call mockContactApi
       try {
         await mockContactApi();
-        onSuccess();
+        onSuccess();               
         setSending(false);
       } catch (err) {
         setSending(false);
@@ -37,7 +37,7 @@ const Form = ({ onSuccess, onError }) => {
             type="large"
             titleEmpty
           />
-          <Field placeholder="" label="Email" />
+          <Field placeholder="" label="Email"  />
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
           </Button>

@@ -135,23 +135,26 @@ const Page = () => {
    {/* Utilisez le composant EventCard pour afficher les détails de la prestation */}
    {last && (
             // Ouvre une modal qui affiche les détails de la prestation lorsqu'il est cliqué
-            <Modal Content={<Modal event={last} />}>
-              {/* Le composant Modal fournit une fonction 'setIsOpened' pour ouvrir et fermer le modal */}
-              {({ setIsOpened }) => (
-                <EventCard
-                  // Lorsque la carte est cliquée, on ouvre la modal
-                  onClick={() => setIsOpened(true)}
-                  // L'image de la prestation est affichée en utilisant la propriété 'imageSrc' de la carte
-                  imageSrc={last?.cover}
-                  // Le titre de la prestation est affiché en utilisant la propriété 'title' de la carte
-                  title={last?.title}
-                  // La date de la prestation est affichée en utilisant la propriété 'date' de la carte
-                  date={new Date(last?.date)}
-                  // Le label de la prestation est affiché en utilisant la propriété 'type' de la carte
-                  label={last?.type}
-                />
-              )}
-            </Modal>
+            <Modal
+            Content={
+              <div className="ModalContent">
+                <h3>{last?.title}</h3>
+                <p>{last?.description}</p>
+                <p>Date: {new Date(last?.date).toLocaleDateString()}</p>
+                <p>Type: {last?.type}</p>
+              </div>
+            }
+          >
+            {({ setIsOpened }) => (
+              <EventCard
+                onClick={() => setIsOpened(true)}
+                imageSrc={last?.cover}
+                title={last?.title}
+                date={new Date(last?.date)}
+                label={last?.type}
+              />
+            )}
+          </Modal>
           )}
           {/* Affiche un message d'erreur si 'error' existe */}
           {error && <div>Une erreur est survenue</div>}
@@ -163,19 +166,19 @@ const Page = () => {
         <div>01 23 45 67 89</div>
         <div>contact@724events.com</div>
         <div>
-          <a href="#twitch">
+          <a key="twitch" href="#twitch">
             <Icon name="twitch" />
           </a>
-          <a href="#facebook">
+          <a key="facebook" href="#facebook">
             <Icon name="facebook" />
           </a>
-          <a href="#twitter">
+          <a key="twitter" href="#twitter">
             <Icon name="twitter" />
           </a>
-          <a href="#youtube">
+          <a key="youtube" href="#youtube">
             <Icon name="youtube" />
           </a>
-        </div>
+</div>
       </div>
       <div className="col description">
         <Logo size="large" />

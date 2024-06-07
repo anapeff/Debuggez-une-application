@@ -1,10 +1,11 @@
+// @ts-nocheck
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState } from "react";
 import PropTypes from "prop-types";
 
 import "./style.scss";
-
+// composent select qui permet de selectionner les options dans la galery
 const Select = ({
   selection,
   onChange,
@@ -13,12 +14,13 @@ const Select = ({
   label,
   type = "normal",
 }) => {
-  const [value, setValue] = useState(null); // On initialise la valeur selectionnée à null (ajout de null)
+  const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
   const changeValue = (newValue) => {
-    onChange(newValue); // Ajout d'une nouvelle valeur (newValue) a onChange 
+    onChange(newValue); // ajout l'argument newValue en paramètre de onchange qui permet de changer la valeur du type selectionner
     setValue(newValue);
-    setCollapsed(true); // Fermer le menu après sélection 
+    setCollapsed(!collapsed); // changement argument newValue en !collapsed correspondant bien au state,
+    // Permet de fermer et ouvrir le menu déroulant de select correctement
   };
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
@@ -55,8 +57,8 @@ const Select = ({
           data-testid="collapse-button-testid"
           className={collapsed ? "open" : "close"}
           onClick={(e) => {
-            e.preventDefault(); // Empêche le comportement par défaut du bouton 
-            setCollapsed(!collapsed); // inverse l'état de collapse 
+            e.preventDefault();
+            setCollapsed(!collapsed);
           }}
         >
           <Arrow />
@@ -88,7 +90,7 @@ Select.propTypes = {
   titleEmpty: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
-}
+};
 
 Select.defaultProps = {
   onChange: () => null,
@@ -96,6 +98,6 @@ Select.defaultProps = {
   label: "",
   type: "normal",
   name: "select",
-}
+};
 
 export default Select;
